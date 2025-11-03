@@ -1,22 +1,25 @@
 // =================================================================
 // INICIALIZAÇÃO E CONFIGURAÇÕES
 // =================================================================
-const { Client } = require('whatsapp-web.js');
-const qrcode = require('qrcode-terminal'); 
-
+const { Client, LocalAuth } = require('whatsapp-web.js');
 const client = new Client({
+    authStrategy: new LocalAuth(),
     puppeteer: {
-        // 🚨 CORREÇÃO CRÍTICA APLICADA AQUI:
-        // O Puppeteer usará o Chromium instalado via apt/dpkg, que é o padrão para VPS Linux.
-        // O caminho '/usr/bin/chromium-browser' é o correto para a maioria dos sistemas Ubuntu/Debian.
-        executablePath: '/usr/bin/chromium-browser', 
+        executablePath: '/usr/bin/chromium',  // usa o chromium instalado no sistema
+        headless: true,
         args: [
-            '--no-sandbox', 
+            '--no-sandbox',
             '--disable-setuid-sandbox',
-            '--disable-gpu' // Adicionado para melhor desempenho em VPS
-        ]
-    }
+            '--disable-dev-shm-usage',
+            '--disable-accelerated-2d-canvas',
+            '--no-first-run',
+            '--no-zygote',
+            '--single-process',
+            '--disable-gpu'
+        ],
+    },
 });
+
 
 client.on('qr', qr => {
     qrcode.generate(qr, {small: true});
@@ -264,3 +267,4 @@ client.on('message', async msg => {
         return; 
     }
 });
+
