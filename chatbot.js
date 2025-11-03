@@ -6,9 +6,15 @@ const qrcode = require('qrcode-terminal');
 
 const client = new Client({
     puppeteer: {
-        // Certifique-se de que o caminho abaixo está correto para o seu ambiente
-        executablePath: '/usr/bin/google-chrome-stable', 
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
+        // 🚨 CORREÇÃO CRÍTICA APLICADA AQUI:
+        // O Puppeteer usará o Chromium instalado via apt/dpkg, que é o padrão para VPS Linux.
+        // O caminho '/usr/bin/chromium-browser' é o correto para a maioria dos sistemas Ubuntu/Debian.
+        executablePath: '/usr/bin/chromium-browser', 
+        args: [
+            '--no-sandbox', 
+            '--disable-setuid-sandbox',
+            '--disable-gpu' // Adicionado para melhor desempenho em VPS
+        ]
     }
 });
 
