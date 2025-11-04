@@ -1,33 +1,26 @@
 // =================================================================
-// DEPENDÊNCIAS
-// =================================================================
-const qrcode = require('qrcode-terminal');
-// ⚠️ 'LocalAuth' foi REMOVIDO daqui
-const { Client } = require('whatsapp-web.js'); 
-
-// =================================================================
 // INICIALIZAÇÃO E CONFIGURAÇÕES
 // =================================================================
+const { Client } = require('whatsapp-web.js');
+const qrcode = require('qrcode-terminal'); 
+
 const client = new Client({
-    // ⚠️ authStrategy FOI COMPLETAMENTE REMOVIDA
-    // Isso corrige o erro 'TypeError', mas remove o salvamento de sessão.
-    
     puppeteer: {
-        executablePath: '/usr/bin/chromium-browser', 
-        headless: true,
-        args: [
-            '--no-sandbox',
-            '--disable-setuid-sandbox',
-            '--disable-dev-shm-usage', // Crítico para VPS
-            '--disable-accelerated-2d-canvas',
-            '--no-first-run',
-            '--no-zygote',
-            '--single-process', // Otimização para estabilidade
-            '--disable-gpu',
-            '--disable-software-rasterizer',
-            '--window-size=1920,1080',
-            '--no-sandbox-and-elevated-privileges'
-        ]
+        // Certifique-se de que o caminho abaixo está correto para o seu ambiente
+        executablePath: '/usr/bin/google-chrome-stable', 
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+    }
+});// =================================================================
+// INICIALIZAÇÃO E CONFIGURAÇÕES
+// =================================================================
+const { Client } = require('whatsapp-web.js');
+const qrcode = require('qrcode-terminal'); 
+
+const client = new Client({
+    puppeteer: {
+        // Certifique-se de que o caminho abaixo está correto para o seu ambiente
+        executablePath: '/usr/bin/google-chrome-stable', 
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
     }
 });
 
@@ -190,3 +183,4 @@ client.on('message', async msg => {
             break;
     }
 });
+
